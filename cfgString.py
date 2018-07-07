@@ -18,7 +18,7 @@ ntp-serverice interface gig0/0/0
 #'''
 def toPortInfor(strData=''):
     d ={}
-    for i in str.split('\n#\n'):
+    for i in strData.split('\n#\n'):
         #print(i)
         t0 = re.search(r'^interface [\w\/\.]+',i);    
         t1 = re.search(r'description [\w\W]+?\~\|\~',i)
@@ -30,6 +30,7 @@ def toPortInfor(strData=''):
             else:  d.setdefault('description', []).append([])
             if t2 : d.setdefault('ip address', []).append((t2.group()).replace(' ',''))
             else:d.setdefault('ip address', []).append([])
-    print(d)
-toPortInfor(str)
-  
+    #print(list(d.keys()))
+    return d
+data = toPortInfor(str)
+print(data)
