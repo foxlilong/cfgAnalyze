@@ -1,5 +1,6 @@
 
 import re
+from pandas import DataFrame, ExcelWriter
 '''
 echo "# cfgAnalyze" >> README.md
 git init
@@ -32,5 +33,11 @@ def toPortInfor(strData=''):
             else:d.setdefault('ip address', []).append([])
     #print(list(d.keys()))
     return d
-data = toPortInfor(str)
-print(data)
+myData = toPortInfor(str)
+print(myData)
+
+filePath = r'D:\python362\test\demo1.xlsx'
+myDF = DataFrame(myData)
+writer = ExcelWriter(filePath)
+myDF.to_excel(writer)
+writer.save()
