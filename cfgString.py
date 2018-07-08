@@ -1,6 +1,7 @@
 
 import re
 from pandas import DataFrame, ExcelWriter
+import pandas as pd
 '''
 echo "# cfgAnalyze" >> README.md
 git init
@@ -11,7 +12,7 @@ git push -u origin master
 '''
 str = '''interface Ethernet1/0/1~|~ description acv1_1-11111_124-desgig0/0/0~|~ip binding vpn-instance vpnb~|~ ip address 10.1.1.1 2 255.255.255.0
 #
-interface gigerth0/0/1.1~|~undoshut abcd123_2222222~|~ip binding vpn-instance vpnb~|~ ip address 10.1.1.2 255.255.255.0
+interface gigerth0/0/1.1~|~undoshut abcd123_2222222~|~ip binding vpn-instance vpnb~|~ ip address 222.111.1.244 255.255.255.0
 #
 interface Vlanif1/0/1~|~ description abcd123_3333333~|~ip binding vpn-instance vpnb~|~ ip address 10.1.1.244 255.255.255.0
 #
@@ -34,10 +35,16 @@ def toPortInfor(strData=''):
     #print(list(d.keys()))
     return d
 myData = toPortInfor(str)
-print(myData)
+#print(myData)
 
 filePath = r'D:\python362\test\demo1.xlsx'
-myDF = DataFrame(myData)
-writer = ExcelWriter(filePath)
-myDF.to_excel(writer)
+oldData = pd.read_excel(filePath, sheet_name='test')
+myDF = pd.DataFrame(myData)
+
+print ('old data =\n', (oldData))
+print ('my data =\n', (myDF))
+oldData.update(myDF)
+print ('my data =\n', (oldData))
+writer = pd.ExcelWriter(filePath)
+oldData.to_excel(writer,sheet_name = 'test',index=False)
 writer.save()
