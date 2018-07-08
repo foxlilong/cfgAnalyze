@@ -1,5 +1,5 @@
 
-import re
+import re,os
 from pandas import DataFrame, ExcelWriter
 import pandas as pd
 '''
@@ -12,9 +12,9 @@ git push -u origin master
 '''
 str = '''interface Ethernet1/0/1~|~ description acv1_1-11111_124-desgig0/0/0~|~ip binding vpn-instance vpnb~|~ ip address 10.1.1.1 2 255.255.255.0
 #
-interface gigerth0/0/1.1~|~undoshut abcd123_2222222~|~ip binding vpn-instance vpnb~|~ ip address 222.111.1.244 255.255.255.0
+interface gigerth3/2/1.1~|~undoshut abcd123_2222222~|~ip binding vpn-instance vpnb~|~ ip address 222.111.1.244 255.255.255.0
 #
-interface Vlanif1/0/1~|~ description abcd123_3333333~|~ip binding vpn-instance vpnb~|~ ip address 10.1.1.244 255.255.255.0
+interface Vlanif1/12/1~|~ description 123123123~|~ip binding vpn-instance vpnb~|~ ip address 10.1.1.244 255.255.255.0
 #
 ntp-serverice interface gig0/0/0
 #'''
@@ -28,23 +28,25 @@ def toPortInfor(strData=''):
         #print(t2.group())
         if t0:
             d.setdefault('interface', []).append((t0.group()).replace('interface ',''))
-            if t1 :d.setdefault('description', []).append((t1.group()).replace(' description ','').replace('~|~',''))
+            if t1 :d.setdefault('description', []).append((t1.group()).replace('description ','').replace('~|~',''))
             else:  d.setdefault('description', []).append([])
             if t2 : d.setdefault('ip address', []).append((t2.group()).replace(' ',''))
             else:d.setdefault('ip address', []).append([])
     #print(list(d.keys()))
     return d
+
+def saveDictToExcel(fileP,dfData):
+    if not os.path.exists(fileP) : pd.ExcelWriter(fileP)
+    oldData = pd.read_excel(fileP, sheet_name=0)#sheet_name = 'test'
+    newData = pd.DataFrame(dfData)
+    oldData.update(newData)
+    writer = pd.ExcelWriter(fileP)
+    print(oldData,'\n',newData)
+    newData.to_excel(writer,sheet_name = 'test',index=False)
+    writer.save()
+
 myData = toPortInfor(str)
-#print(myData)
-
 filePath = r'D:\python362\test\demo1.xlsx'
-oldData = pd.read_excel(filePath, sheet_name='test')
-myDF = pd.DataFrame(myData)
+saveDictToExcel(filePath,myData)
 
-print ('old data =\n', (oldData))
-print ('my data =\n', (myDF))
-oldData.update(myDF)
-print ('my data =\n', (oldData))
-writer = pd.ExcelWriter(filePath)
-oldData.to_excel(writer,sheet_name = 'test',index=False)
-writer.save()
+
