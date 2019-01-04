@@ -677,7 +677,7 @@ checkDownload 2>&1 | tee -a ${oneinstack_dir}/install.log
 [ -e "/usr/local/include/openssl" ] && rm -rf /usr/local/include/openssl
 
 # get OS Memory
-. ./include/memory.sh
+#. ./include/memory.sh
 
 if [ ! -e ~/.oneinstack ]; then
   # Check binary dependencies packages
@@ -992,10 +992,10 @@ if [ "${memcached_yn}" == 'y' ]; then
 fi
 
 # index example
-if [ ! -e "${wwwroot_dir}/default/index.html" -a "${web_yn}" == 'y' ]; then
-  . include/demo.sh
-  DEMO 2>&1 | tee -a ${oneinstack_dir}/install.log
-fi
+#if [ ! -e "${wwwroot_dir}/default/index.html" -a "${web_yn}" == 'y' ]; then
+#  . include/demo.sh
+#  DEMO 2>&1 | tee -a ${oneinstack_dir}/install.log
+#fi
 
 # get web_install_dir and db_install_dir
 . include/check_dir.sh

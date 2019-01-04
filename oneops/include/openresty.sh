@@ -9,6 +9,25 @@
 #       https://github.com/oneinstack/oneinstack
 
 Install_OpenResty() {
+##IP访问控制数据库下载
+cd /data/soft
+wget --user=xygame --password=xywget888 -c --limit-rate=600k http://104.155.198.187:555/wget/nginx/GeoIP.tar.gz
+tar xvf GeoIP.tar.gz
+cd GeoIP-1.4.8/
+./configure
+make && make install
+echo '/usr/local/lib' > /etc/ld.so.conf.d/geoip.conf
+ldconfig
+
+##安装Brotli压缩算法
+cd /data/soft
+wget --user=xygame --password=xywget888 -c --limit-rate=600k http://104.155.198.187:555/wget/nginx/libbrotli.tar.gz
+tar xvf /data/soft/libbrotli.tar.gz
+
+wget --user=xygame --password=xywget888 -c --limit-rate=600k http://104.155.198.187:555/wget/nginx/ngx_brotli.tar.gz
+tar xvf /data/soft/ngx_brotli.tar.gz
+
+
   pushd ${oneinstack_dir}/src > /dev/null
   id -u ${nginx_user} >/dev/null 2>&1
   [ $? -ne 0 ] && useradd -M -s /sbin/nologin ${nginx_user}

@@ -19,10 +19,10 @@
 # Check that networking is up.
 [ "$NETWORKING" = "no" ] && exit 0
 
-nginx="/usr/local/nginx/sbin/nginx"
+nginx="{openresty_install_dir}/nginx/sbin/nginx"
 prog=$(basename $nginx)
 
-NGINX_CONF_FILE="/usr/local/nginx/conf/nginx.conf"
+NGINX_CONF_FILE="{openresty_install_dir}/nginx/conf/nginx.conf"
 
 [ -f /etc/sysconfig/nginx ] && . /etc/sysconfig/nginx
 
